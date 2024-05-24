@@ -6,23 +6,27 @@
 </head>
 <body>
 <h1>글 수정</h1>
-<form th:action="@{/update}" method="post">
-    <input type="hidden" id="id" name="id" th:value="${board.id}">
-    <input type="hidden" id="createdAt" name="createdAt" th:value="${board.createdAt}">
+<form th:action="@{/update}" method="post" th:object="${board}" >
+    <input type="hidden" id="id" th:field="*{id}">
+    <input type="hidden" id="createdAt" th:field="*{createdAt}">
 
     <label for="name">Name: </label>
-    <input type="text" id="name" name="name" th:value="${board.name}" readonly>
+    <input type="text" id="name" th:field="*{name}" readonly>
 
     <label for="title">Title: </label>
-    <input type="text" id="title" name="title" th:value="${board.title}" required>
+    <input type="text" id="title" th:field="*{title}" required>
+    <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
 
     <label for="content">Content: </label>
-    <input type="text" id="content" name="content" th:value="${board.content}" required>
+    <input type="text" id="content" th:field="*{content}" required>
+    <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
 
     <label for="password">Password (for verification): </label>
-    <input type="password" id="password" name="password" required>
+    <input type="password" id="password" th:field="*{password}" required>
+    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
 
     <input type="submit" value="글 수정">
 </form>
+
 </body>
 </html>

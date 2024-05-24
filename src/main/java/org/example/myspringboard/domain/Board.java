@@ -19,7 +19,7 @@ public class Board {
     @Id
     private Long id;
 
-    @NotBlank(message = "이름을 입력해주세요.")  // 필드가 null이 아니고 공백이 아니어야함
+    @NotBlank(message = "이름을 입력해주세요.")  // 필드가 null이 아니고 길이가 0보다 커야함 + 공백 문자열 허용 X
     @Size(max = 100, message = "이름은 100자 까지만 허용됩니다.")
     private String name;
 

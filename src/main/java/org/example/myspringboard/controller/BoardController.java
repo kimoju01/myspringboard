@@ -1,5 +1,6 @@
 package org.example.myspringboard.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.myspringboard.domain.Board;
 import org.example.myspringboard.service.BoardService;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,7 +59,12 @@ public class BoardController {
     }
 
     @PostMapping("/write")
-    public String write(@ModelAttribute Board board, RedirectAttributes redirectAttributes) {
+    public String write(@Valid @ModelAttribute Board board,
+                        BindingResult bindingResult,
+                        RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "board/writeForm";
+        }
         boardService.saveBoard(board);
         redirectAttributes.addFlashAttribute("message", "게시글이 정상적으로 등록되었습니다.");
         return "redirect:/list";
@@ -72,9 +79,13 @@ public class BoardController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute Board board,
+    public String update(@Valid @ModelAttribute Board board,
+                         BindingResult bindingResult,
                          @RequestParam(name="password") String password,
                          RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "board/updateForm";
+        }
 
         if (boardService.verifyPassword(board.getId(), password)) {
             boardService.saveBoard(board);
@@ -82,7 +93,7 @@ public class BoardController {
             return "redirect:/view?id=" + board.getId();
         } else {
             redirectAttributes.addFlashAttribute("message", "비밀번호가 일치하지 않습니다.");
-            return "redirect:/updateform?id=" + board.getId();
+            return "board/updateForm";  // 수정하려 했던 내용 유지 하면서 폼 다시 보여주기
         }
     }
 
