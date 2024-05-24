@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: myspringboard
+
+  # spring jdbc datasource 설정
+  datasource:
+    url: jdbc:mysql://localhost:3306/board_db
+    username: hyeju
+    password: hyeju1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
