@@ -33,7 +33,7 @@ public class BoardController {
     @GetMapping("/list")
     public String boards(Model model,
                          @RequestParam(defaultValue = "1") int page,
-                         @RequestParam(defaultValue = "10") int size) {
+                         @RequestParam(defaultValue = "5") int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         // page는 0부터 시작하기 때문에 사용자가 1부터 시작하는 페이지 번호를 입력헀을 때 맞추기 위해 page - 1 사용
 
