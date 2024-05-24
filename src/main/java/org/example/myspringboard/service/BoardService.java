@@ -44,18 +44,15 @@ public class BoardService {
     // 글 등록 & 글 수정
     @Transactional
     public Board saveBoard(Board board) {
-        board.setCreatedAt(LocalDateTime.now());
-        board.setUpdatedAt(LocalDateTime.now());
+        String encodePassword = passwordEncoder.encode(board.getPassword());
+        board.setPassword(encodePassword);
+
+        if (board.getCreatedAt() == null) { // 게시글 등록일 경우 등록일 지정도 함께
+            board.setCreatedAt(LocalDateTime.now());
+        }
+        board.setUpdatedAt(LocalDateTime.now());    // 수정일 경우는 수정일만 새로 지정
         return boardRepository.save(board);
     }
-
-    // 글 수정
-    @Transactional
-    public Board updateBoard(Board board) {
-        board.setUpdatedAt(LocalDateTime.now());
-        return boardRepository.save(board);
-    }
-
 
     // 글 삭제
     @Transactional
@@ -66,7 +63,7 @@ public class BoardService {
     // 글 수정 & 삭제 시 password 확인
     public boolean verifyPassword(Long id, String password) {
         Board board = boardRepository.findById(id).orElse(null);
-        if (password.equals(board.getPassword()))
+        if (passwordEncoder.matches(password, board.getPassword()))
             return true;
 
         return false;

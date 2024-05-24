@@ -77,7 +77,7 @@ public class BoardController {
                          RedirectAttributes redirectAttributes) {
 
         if (boardService.verifyPassword(board.getId(), password)) {
-            boardService.updateBoard(board);
+            boardService.saveBoard(board);
             redirectAttributes.addFlashAttribute("message", "게시글이 정상적으로 수정되었습니다.");
             return "redirect:/view?id=" + board.getId();
         } else {
