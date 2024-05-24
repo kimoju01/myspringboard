@@ -6,6 +6,8 @@ import org.example.myspringboard.repository.BoardRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class BoardService {
@@ -29,14 +31,15 @@ public class BoardService {
     }
 
 
-    // 글 등록
+    // 글 등록 & 글 수정
     @Transactional
     public Board saveBoard(Board board) {
+        if (board.getCreatedAt() == null) { // 게시글 등록일 경우 등록일 지정도 함께
+            board.setCreatedAt(LocalDateTime.now());
+        }
+        board.setUpdatedAt(LocalDateTime.now());    // 수정일 경우는 수정일만 새로 지정
         return boardRepository.save(board);
     }
-
-
-    // 글 수정
 
 
     // 글 삭제
