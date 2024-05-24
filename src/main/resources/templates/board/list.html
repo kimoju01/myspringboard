@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Board List</title>
+    <link rel="stylesheet" th:href="@{css/board.css}"> <!-- 기본 위치가 static 밑으로 잡혀있음 -->
 </head>
 <body>
 
@@ -34,6 +35,7 @@
         </li>
     </ul>
 </div>
+<a th:href="@{/writeform}">글 등록</a>
 
 </body>
 </html>
