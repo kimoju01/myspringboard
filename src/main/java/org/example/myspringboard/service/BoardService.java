@@ -2,6 +2,7 @@ package org.example.myspringboard.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.myspringboard.domain.Board;
+import org.example.myspringboard.exception.NotFoundException;
 import org.example.myspringboard.repository.BoardRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,7 +39,7 @@ public class BoardService {
     // 글 상세 조회
     @Transactional(readOnly = true)
     public Board findBoardById(Long id) {
-        return boardRepository.findById(id).orElse(null);
+        return boardRepository.findById(id).orElseThrow(() -> new NotFoundException("게시글을 찾을 수 없습니다."));
     }
 
     // 글 등록 & 글 수정
