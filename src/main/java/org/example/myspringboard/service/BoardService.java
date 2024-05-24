@@ -43,7 +43,19 @@ public class BoardService {
 
 
     // 글 삭제
+    @Transactional
+    public void deleteBoard(Long id) {
+        boardRepository.deleteById(id);
+    }
 
+    // 글 수정 & 삭제 시 password 확인
+    public boolean verifyPassword(Long id, String password) {
+        Board board = boardRepository.findById(id).orElse(null);
+        if (password.equals(board.getPassword()))
+            return true;
+
+        return false;
+    }
 
 
 

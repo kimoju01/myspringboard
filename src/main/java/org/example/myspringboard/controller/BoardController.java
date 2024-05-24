@@ -48,11 +48,35 @@ public class BoardController {
         return "redirect:/list";
     }
 
-
     // 글 수정
 
 
     // 글 삭제
+    @GetMapping("/deleteform")
+    public String deleteForm(@RequestParam(name="id") Long id, Model model) {
+        // @RequestParam으로 /deleteform?id= 에서 id 값 받아옴
+        model.addAttribute("id", id);
+        // 받아온 id 값 deleteform으로 넘기고 th:value=${"id"}로 값 저장 -> 왜? 삭제 처리할 때 쓸 수 있도록
+        return "board/deleteForm";
+    }
+
+    @PostMapping("/delete")
+    public String delete(@RequestParam(name="id") Long id,
+                         @RequestParam(name="password") String password,
+                         RedirectAttributes redirectAttributes) {
+        // @RequestParam으로 deleteform에서 hidden으로 name="id" 넘긴거 받아와서 id 변수에 주입,
+        // password도 name="password"로 받아와서 변수에 주입
+
+        if (boardService.verifyPassword(id, password)) {
+            // password 확인 결과 true여야 삭제
+            boardService.deleteBoard(id);
+            redirectAttributes.addFlashAttribute("message", "게시글이 정상적으로 삭제되었습니다.");
+            return "redirect:/list";
+        } else {    // password 불일치 시 삭제 폼으로 redirect
+            redirectAttributes.addFlashAttribute("message", "비밀번호가 일치하지 않습니다.");
+            return "redirect:/deleteform?id=" + id;
+        }
+    }
 
 
 }

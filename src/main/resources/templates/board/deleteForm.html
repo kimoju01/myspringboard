@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>글 삭제</title>
+</head>
+<body>
+<h1>글 삭제 확인</h1>
+<form th:action="@{/delete}" method="post">
+    <input type="hidden" id="id" name="id" th:value="${id}">
+    <label for="password">Password: </label>
+    <input type="password" id="password" name="password" required>
+    <input type="submit" value="글 삭제">
+</form>
+</body>
+</html>
