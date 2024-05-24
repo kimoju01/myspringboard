@@ -5,7 +5,9 @@
     <title>글 수정</title>
 </head>
 <body>
+<div th:if="${message}" th:text="${message}"></div>
 <h1>글 수정</h1>
+
 <form th:action="@{/update}" method="post" th:object="${board}" >
     <input type="hidden" id="id" th:field="*{id}">
     <input type="hidden" id="createdAt" th:field="*{createdAt}">

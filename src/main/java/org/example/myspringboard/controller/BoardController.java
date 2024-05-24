@@ -82,7 +82,8 @@ public class BoardController {
     public String update(@Valid @ModelAttribute Board board,
                          BindingResult bindingResult,
                          @RequestParam(name="password") String password,
-                         RedirectAttributes redirectAttributes) {
+                         RedirectAttributes redirectAttributes,
+                         Model model) {
         if (bindingResult.hasErrors()) {
             return "board/updateForm";
         }
@@ -92,7 +93,8 @@ public class BoardController {
             redirectAttributes.addFlashAttribute("message", "게시글이 정상적으로 수정되었습니다.");
             return "redirect:/view?id=" + board.getId();
         } else {
-            redirectAttributes.addFlashAttribute("message", "비밀번호가 일치하지 않습니다.");
+            // redirectAttributes는 리다이렉트 이후에만 유효해서 model에 추가
+            model.addAttribute("message", "비밀번호가 일치하지 않습니다.");
             return "board/updateForm";  // 수정하려 했던 내용 유지 하면서 폼 다시 보여주기
         }
     }
