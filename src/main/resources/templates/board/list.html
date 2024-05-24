@@ -23,7 +23,7 @@
             <td>
                 <a th:href="@{/view(id=${board.id})}" th:text="${board.title}"></a>
             </td>
-            <td th:text="${#temporals.format(board.createdAt, 'yyyy/mm/dd')}"></td>
+            <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd')}"></td>
         </tr>
     </tbody>
 </table>
