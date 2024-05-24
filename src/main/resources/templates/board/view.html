@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>View</title>
+</head>
+<body>
+
+<h2 th:text="${board.title}">제목</h2>
+<p><strong>이름: <span th:text="${board.name}"></span></strong></p>
+<p><strong>내용: <span th:text="${board.content}"></span></strong></p>
+<p><strong>등록일: <span th:text="${#temporals.format(board.createdAt, 'yyyy/mm/dd HH:mm')}"></span></strong></p>
+
+<a th:href="@{/list}">목록</a>
+<!--<a th:href="@{}">수정</a>-->
+<!--<a th:href="@{}">삭제</a>-->
+
+</body>
+</html>

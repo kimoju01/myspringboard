@@ -23,6 +23,11 @@ public class BoardService {
 
 
     // 글 상세 조회
+    @Transactional(readOnly = true)
+    public Board findBoardById(Long id) {
+        return boardRepository.findById(id).orElse(null);
+    }
+
 
     // 글 등록
     @Transactional
