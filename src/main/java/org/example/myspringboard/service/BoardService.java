@@ -3,6 +3,10 @@ package org.example.myspringboard.service;
 import lombok.RequiredArgsConstructor;
 import org.example.myspringboard.domain.Board;
 import org.example.myspringboard.repository.BoardRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,13 +19,20 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     // 글 목록 (페이징X)
-    @Transactional(readOnly = true)
-    public Iterable<Board> findAllBoards() {
-        return boardRepository.findAll();
-    }
+//    @Transactional(readOnly = true)
+//    public Iterable<Board> findAllBoards() {
+//        return boardRepository.findAll();
+//    }
 
 
     // 글 목록 (페이징O) findPaginated(page, size)
+    @Transactional(readOnly = true)
+    public Page<Board> findAllBoards(Pageable pageable) {
+        Pageable sortedByDescId = PageRequest.of(pageable.getPageNumber(),
+                pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "id"));
+
+        return boardRepository.findAll(sortedByDescId);
+    }
 
 
     // 글 상세 조회

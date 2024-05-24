@@ -3,6 +3,9 @@ package org.example.myspringboard.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.myspringboard.domain.Board;
 import org.example.myspringboard.service.BoardService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,13 +21,25 @@ public class BoardController {
     private final BoardService boardService;
 
     // 글 목록 (페이징X)
-    @GetMapping("/list")
-    public String boards(Model model) {
-        model.addAttribute("boards", boardService.findAllBoards());
-        return "board/list";
-    }
+//    @GetMapping("/list")
+//    public String boards(Model model) {
+//        model.addAttribute("boards", boardService.findAllBoards());
+//        return "board/list";
+//    }
 
     // 글 목록 (페이징O)
+    @GetMapping("/list")
+    public String boards(Model model,
+                         @RequestParam(defaultValue = "1") int page,
+                         @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        // page는 0부터 시작하기 때문에 사용자가 1부터 시작하는 페이지 번호를 입력헀을 때 맞추기 위해 page - 1 사용
+
+        Page<Board> boards = boardService.findAllBoards(pageable);
+        model.addAttribute("boards", boards);
+        model.addAttribute("currentPage", page);
+        return "board/list";
+    }
 
 
     // 글 상세 조회
