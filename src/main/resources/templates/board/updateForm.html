@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>글 수정</title>
+</head>
+<body>
+<h1>글 수정</h1>
+<form th:action="@{/update}" method="post">
+    <input type="hidden" id="id" name="id" th:value="${board.id}">
+    <input type="hidden" id="createdAt" name="createdAt" th:value="${board.createdAt}">
+
+    <label for="name">Name: </label>
+    <input type="text" id="name" name="name" th:value="${board.name}" readonly>
+
+    <label for="title">Title: </label>
+    <input type="text" id="title" name="title" th:value="${board.title}" required>
+
+    <label for="content">Content: </label>
+    <input type="text" id="content" name="content" th:value="${board.content}" required>
+
+    <label for="password">Password (for verification): </label>
+    <input type="password" id="password" name="password" required>
+
+    <input type="submit" value="글 수정">
+</form>
+</body>
+</html>

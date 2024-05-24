@@ -49,6 +49,27 @@ public class BoardController {
     }
 
     // 글 수정
+    @GetMapping("/updateform")
+    public String updateForm(@RequestParam(name="id") Long id, Model model) {
+        Board board = boardService.findBoardById(id);
+        model.addAttribute("board", board);
+        return "board/updateForm";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute Board board,
+                         @RequestParam(name="password") String password,
+                         RedirectAttributes redirectAttributes) {
+
+        if (boardService.verifyPassword(board.getId(), password)) {
+            boardService.saveBoard(board);
+            redirectAttributes.addFlashAttribute("message", "게시글이 정상적으로 수정되었습니다.");
+            return "redirect:/view?id=" + board.getId();
+        } else {
+            redirectAttributes.addFlashAttribute("message", "비밀번호가 일치하지 않습니다.");
+            return "redirect:/updateform?id=" + board.getId();
+        }
+    }
 
 
     // 글 삭제
