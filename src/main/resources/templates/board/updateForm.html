@@ -1,34 +1,107 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org/">
 <head>
-    <meta charset="UTF-8">
-    <title>글 수정</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>MODIFY</title>
+    <link rel="icon" type="image/x-icon" th:href="@{assets/favicon.ico}" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link th:href="@{css/styles.css}" rel="stylesheet" />
 </head>
 <body>
-<div th:if="${message}" th:text="${message}"></div>
-<h1>글 수정</h1>
-
-<form th:action="@{/update}" method="post" th:object="${board}" >
-    <input type="hidden" id="id" th:field="*{id}">
-    <input type="hidden" id="createdAt" th:field="*{createdAt}">
-
-    <label for="name">Name: </label>
-    <input type="text" id="name" th:field="*{name}" readonly>
-
-    <label for="title">Title: </label>
-    <input type="text" id="title" th:field="*{title}" required>
-    <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
-
-    <label for="content">Content: </label>
-    <input type="text" id="content" th:field="*{content}" required>
-    <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
-
-    <label for="password">Password (for verification): </label>
-    <input type="password" id="password" th:field="*{password}" required>
-    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-
-    <input type="submit" value="글 수정">
-</form>
-<a th:href="@{/list}">목록</a>
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" th:href="@{/list}">My Board</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/list}">Home</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" th:href="@{/writeform}">Write</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- Page Header-->
+<header class="masthead" th:style="'background-image: url(assets/img/updateform-bg.jpg)'">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="page-heading">
+                    <h1>MODIFY</h1>
+                    <span class="subheading">🌴</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content-->
+<main class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div th:if="${message}" class="alert alert-danger" role="alert" th:text="${message}" style="font-size: 0.85rem; padding: 0.5rem;"></div>
+                <div class="my-5">
+                    <form id="updateForm" th:action="@{/update}" method="post" th:object="${board}">
+                        <input type="hidden" id="id" th:field="*{id}">
+                        <input type="hidden" id="createdAt" th:field="*{createdAt}">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="name" th:field="*{name}" readonly>
+                            <label for="name">Name</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="title" th:field="*{title}" required>
+                            <label for="title">Title</label>
+                            <div class="form-text" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                        </div>
+                        <div class="form-floating">
+                            <textarea class="form-control" id="content" th:field="*{content}" style="height: 12rem" required></textarea>
+                            <label for="content">Content</label>
+                            <div class="form-text" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
+                        </div>
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="password" th:field="*{password}" required>
+                            <label for="password">Password for verification</label>
+                            <div class="form-text" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                        </div>
+                        <br />
+                    </form>
+                    <!-- Submit Button-->
+                    <div class="button-group">
+                        <button class="btn btn-primary text-uppercase" id="submitButton" type="submit" form="updateForm">Submit</button>
+                        <a th:href="@{/list}" class="btn btn-success text-uppercase" id="listButton">List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Footer-->
+<footer class="border-top">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="small text-center text-muted fst-italic">Hyeju Spring Board🧸</div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script th:src="@{/js/scripts.js}"></script>
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<!-- * *                               SB Forms JS                               * *-->
+<!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>
